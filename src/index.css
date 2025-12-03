@@ -1,0 +1,96 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ================= HERO MOTION ================= */
+
+/* floating up & down */
+@keyframes heroFloat {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+/* glow pulse */
+@keyframes heroGlow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 40px rgba(34, 197, 94, 0.6));
+  }
+  50% {
+    filter: drop-shadow(0 0 80px rgba(34, 197, 94, 1));
+  }
+}
+
+/* subtle 3D tilt */
+@keyframes heroTilt {
+  0% {
+    transform: rotate3d(0.4, 1, 0, -6deg);
+  }
+  50% {
+    transform: rotate3d(-0.2, 1, 0, 4deg);
+  }
+  100% {
+    transform: rotate3d(0.4, 1, 0, -6deg);
+  }
+}
+
+/* dots orbiting around the globe */
+@keyframes dotOrbit {
+  0% {
+    transform: rotate(0deg) translateX(12px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(12px) rotate(-360deg);
+  }
+}
+
+/* -------- classes used in Hero -------- */
+
+.hero-globe-orbit {
+  position: relative;
+  animation: heroFloat 10s ease-in-out infinite;
+}
+
+.hero-globe {
+  animation: heroGlow 5s ease-in-out infinite, heroTilt 18s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+/* small glowing dots */
+.hero-dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: rgb(34 197 94);
+  box-shadow: 0 0 18px rgba(34, 197, 94, 0.9);
+}
+
+/* each dot has its own orbit circle */
+.hero-dot.dot-1 {
+  top: 14%;
+  right: 8%;
+  animation: dotOrbit 14s linear infinite;
+}
+
+.hero-dot.dot-2 {
+  bottom: 18%;
+  left: 10%;
+  animation: dotOrbit 18s linear infinite;
+}
+
+.hero-dot.dot-3 {
+  bottom: 5%;
+  right: 20%;
+  animation: dotOrbit 22s linear infinite;
+}
