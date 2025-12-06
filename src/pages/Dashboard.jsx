@@ -9,15 +9,15 @@ function isSameMonth(dateA, dateB) {
   );
 }
 
-// Revenue هاد الشهر (بالـ MAD)
+// Revenue ديال هاد الشهر بالمغربية (MAD)
 function getThisMonthRevenueMad(sales) {
   const now = new Date();
   return sales
     .filter((s) => isSameMonth(new Date(s.deliveredAt), now))
-    .reduce((sum, s) => sum + (s.priceMad || 0), 0);
+    .reduce((sum, s) => sum + (Number(s.priceMad) || 0), 0);
 }
 
-// عدد المشاريع لهذا الشهر
+// عدد المشاريع ديال هاد الشهر
 function getThisMonthProjectsCount(sales) {
   const now = new Date();
   return sales.filter((s) => isSameMonth(new Date(s.deliveredAt), now)).length;
@@ -28,23 +28,37 @@ function getCountByPlan(planName) {
   return projectSales.filter((s) => s.planName === planName).length;
 }
 
-// data ديال آخر 6 شهور (للـ bar chart)
+/**
+ * آخر X شهور:
+ * - label: smiyt chhar (Jul, Aug, Sep…)
+ * - count: ch7al men project
+ * - revenueMad: ch7al men MAD dakhal f dak chhar
+ */
 function getLastMonthsData(months = 6) {
   const now = new Date();
   const result = [];
 
   for (let i = months - 1; i >= 0; i--) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    const label = d.toLocaleString("en-US", { month: "short" });
+    const label = d.toLocaleString("en-US", { month: "short" }); // Jul, Aug...
 
     const monthlySales = projectSales.filter((s) => {
       const sd = new Date(s.deliveredAt);
-      return sd.getMonth() === d.getMonth() && sd.getFullYear() === d.getFullYear();
+      return (
+        sd.getMonth() === d.getMonth() &&
+        sd.getFullYear() === d.getFullYear()
+      );
     });
+
+    const monthlyRevenue = monthlySales.reduce(
+      (sum, s) => sum + (Number(s.priceMad) || 0),
+      0
+    );
 
     result.push({
       label,
       count: monthlySales.length,
+      revenueMad: monthlyRevenue,
     });
   }
 
@@ -56,8 +70,9 @@ export default function Dashboard() {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
 
-  const SECRET_CODE = "4279"; // بدّل الكود إذا بغيتي
+  const SECRET_CODE = "4279"; // تقدر تبدل الكود هنا
 
+  // ====== ACCESS GATE (code صغير باش غير انت تشوف الDashboard) ======
   useEffect(() => {
     const ok = localStorage.getItem("lynix_dashboard_ok") === "1";
     if (ok) setAuthorized(true);
@@ -78,12 +93,14 @@ export default function Dashboard() {
   const revenueThisMonthMad = getThisMonthRevenueMad(projectSales);
   const projectsThisMonth = getThisMonthProjectsCount(projectSales);
   const totalProjects = projectSales.length;
-  const landingCount = getCountByPlan("Landing Page");
-  const ecommerceCount = getCountByPlan("E-Commerce Store");
-  const webAppCount = getCountByPlan("Web App / Dashboard");
-  const monthlyData = getLastMonthsData(6);
 
-  /* =============== ACCESS GATE =============== */
+  const landingCount = getCountByPlan("Landing Page");
+  const ecommerceCount = getCountByPlan("E-Commerce Store"); // ila bghiti t-affichi hadchi zed card
+  const webAppCount = getCountByPlan("Web App / Dashboard");
+
+  const monthlyData = getLastMonthsData(6); // آخر 6 شهور
+
+  /* =============== ACCESS GATE UI =============== */
   if (!authorized) {
     return (
       <section className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-4">
@@ -123,7 +140,7 @@ export default function Dashboard() {
     );
   }
 
-  /* =============== REAL DASHBOARD =============== */
+  /* =============== REAL DASHBOARD UI =============== */
   return (
     <section className="bg-slate-950 text-white min-h-screen pt-24 pb-20 px-4">
       <div className="max-w-6xl mx-auto">
@@ -141,7 +158,7 @@ export default function Dashboard() {
           Real numbers based on projects you&apos;ve actually delivered.
         </p>
 
-        {/* TOP STATS */}
+        {/* TOP STATS CARDS */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Revenue this month */}
           <div className="rounded-2xl bg-slate-900/80 border border-emerald-400/25 shadow-[0_0_40px_rgba(16,185,129,0.35)] p-4 flex flex-col gap-3">
@@ -171,7 +188,9 @@ export default function Dashboard() {
                 All time
               </span>
             </div>
-            <p className="text-3xl font-semibold text-slate-50">{totalProjects}</p>
+            <p className="text-3xl font-semibold text-slate-50">
+              {totalProjects}
+            </p>
             <p className="text-xs text-slate-400">
               Projects recorded in <code>projectSales.js</code>
             </p>
@@ -185,8 +204,12 @@ export default function Dashboard() {
               </span>
               <span className="text-lg">📄</span>
             </div>
-            <p className="text-3xl font-semibold text-slate-50">{landingCount}</p>
-            <p className="text-xs text-slate-400">Using the Landing Page plan</p>
+            <p className="text-3xl font-semibold text-slate-50">
+              {landingCount}
+            </p>
+            <p className="text-xs text-slate-400">
+              Using the Landing Page plan
+            </p>
           </div>
 
           {/* Web Apps / Dashboards */}
@@ -197,31 +220,65 @@ export default function Dashboard() {
               </span>
               <span className="text-lg">📊</span>
             </div>
-            <p className="text-3xl font-semibold text-slate-50">{webAppCount}</p>
+            <p className="text-3xl font-semibold text-slate-50">
+              {webAppCount}
+            </p>
             <p className="text-xs text-slate-400">
               Using the Web App / Dashboard plan
             </p>
           </div>
+
+          {/* Ila bghiti card khassa b "E-Commerce Store" تقدر تزيد هادي: */}
+          {false && (
+            <div className="rounded-2xl bg-slate-900/70 border border-slate-700/80 p-4 flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <span className="text-xs uppercase tracking-wide text-slate-300/90">
+                  E-Commerce Stores
+                </span>
+                <span className="text-lg">🛒</span>
+              </div>
+              <p className="text-3xl font-semibold text-slate-50">
+                {ecommerceCount}
+              </p>
+              <p className="text-xs text-slate-400">
+                Using the E-Commerce Store plan
+              </p>
+            </div>
+          )}
         </section>
 
-        {/* Monthly chart */}
+        {/* Monthly chart: projects + revenue per month */}
         <div className="mt-12 rounded-2xl bg-slate-900/70 border border-slate-800 p-6">
           <p className="text-sm uppercase text-slate-300 mb-3 tracking-wide">
             Monthly Delivery
           </p>
           <p className="text-lg font-semibold text-slate-100 mb-6">
-            Projects shipped per month
+            Projects &amp; revenue per month
           </p>
 
-          <div className="flex items-end gap-4 h-40">
+          <div className="flex items-end gap-4 h-48">
             {monthlyData.map((m) => (
-              <div key={m.label} className="flex flex-col items-center flex-1 gap-2">
+              <div
+                key={m.label}
+                className="flex flex-col items-center flex-1 gap-1"
+              >
+                {/* Bar height = projects count + small base height باش تبان حتى إلا كان 0 */}
                 <div
-                  className="w-full bg-gradient-to-t from-emerald-500/40 to-emerald-300/80 rounded-xl"
+                  className="w-full bg-gradient-to-t from-emerald-500/40 to-emerald-300/80 rounded-xl transition-all"
                   style={{ height: `${10 + m.count * 18}px` }}
                 />
-                <span className="text-xs text-slate-400">{m.label}</span>
-                <span className="text-[11px] text-slate-500">{m.count} proj</span>
+                {/* Month name */}
+                <span className="text-xs text-slate-400 mt-1">{m.label}</span>
+                {/* Project count */}
+                <span className="text-[11px] text-slate-500">
+                  {m.count} proj
+                </span>
+                {/* Revenue MAD */}
+                <span className="text-[11px] text-emerald-300">
+                  {m.revenueMad
+                    ? `${m.revenueMad.toLocaleString("fr-FR")} MAD`
+                    : "0 MAD"}
+                </span>
               </div>
             ))}
           </div>
