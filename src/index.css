@@ -94,3 +94,28 @@ html {
   right: 20%;
   animation: dotOrbit 22s linear infinite;
 }
+
+
+
+
+
+
+/* smooth reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 700ms ease, transform 700ms ease;
+  will-change: opacity, transform;
+}
+
+.reveal.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* small delay helpers */
+.d-100 { transition-delay: 100ms; }
+.d-200 { transition-delay: 200ms; }
+.d-300 { transition-delay: 300ms; }
+.d-400 { transition-delay: 400ms; }
+.d-500 { transition-delay: 500ms; }

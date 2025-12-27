@@ -1,6 +1,31 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
+function useReveal(options = { threshold: 0.25 }) {
+  const ref = useRef(null);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const obs = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setShow(true);
+        obs.disconnect(); // reveal once
+      }
+    }, options);
+
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [options]);
+
+  return { ref, show };
+}
+
 export default function Hero() {
+  const { ref, show } = useReveal({ threshold: 0.35 });
+
   const handleScrollToPricing = () => {
     const section = document.getElementById("project-pricing");
     if (section) {
@@ -22,25 +47,36 @@ export default function Hero() {
       {/* dark vignette */}
       <div className="pointer-events-none absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_top,_rgba(15,23,42,0)_0,_rgba(15,23,42,1)_75%)]" />
 
-      <div className="relative max-w-7xl mx-auto px-6 pt-24 pb-28 flex flex-col lg:flex-row items-center gap-16">
+      <div
+        ref={ref}
+        className="relative max-w-7xl mx-auto px-6 pt-24 pb-28 flex flex-col lg:flex-row items-center gap-16"
+      >
         {/* LEFT TEXT */}
         <div className="max-w-xl text-center lg:text-left space-y-6">
-          <p className="uppercase tracking-[0.3em] text-xs text-emerald-300/70">
+          <p
+            className={`reveal ${show ? "show" : ""} text-xs uppercase tracking-[0.3em] text-emerald-300/70`}
+          >
             lynix.digital
           </p>
 
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight">
+          <h1
+            className={`reveal d-150 ${show ? "show" : ""} text-4xl md:text-6xl font-bold leading-tight`}
+          >
             Complete <span className="text-green-400">Digital Solutions</span>
             <br />
-            For Web, Mobile & Desktop
+            For Web, Mobile &amp; Desktop
           </h1>
 
-          <p className="mt-2 text-gray-300 text-sm md:text-base">
+          <p
+            className={`reveal d-250 ${show ? "show" : ""} mt-2 text-gray-300 text-sm md:text-base`}
+          >
             We build websites, e-commerce stores, mobile apps, desktop apps and
             custom software &mdash; with clean UI/UX and fast delivery.
           </p>
 
-          <div className="mt-6 flex flex-wrap justify-center lg:justify-start gap-4">
+          <div
+            className={`reveal d-350 ${show ? "show" : ""} mt-6 flex flex-wrap justify-center lg:justify-start gap-4`}
+          >
             <button
               onClick={handleScrollToPricing}
               className="bg-green-500 hover:bg-green-600 text-black px-7 py-3 rounded-full font-medium shadow-lg shadow-emerald-500/40 text-sm md:text-base transition"
@@ -58,7 +94,11 @@ export default function Hero() {
         </div>
 
         {/* RIGHT 3D GLOBE + MOTION */}
-        <div className="relative w-full lg:flex-1 mt-12 lg:mt-0 flex justify-center lg:justify-end">
+        <div
+          className={`reveal d-450 ${
+            show ? "show" : ""
+          } relative w-full lg:flex-1 mt-12 lg:mt-0 flex justify-center lg:justify-end`}
+        >
           {/* main green aura behind everything */}
           <div className="absolute inset-[-20%] rounded-full bg-[radial-gradient(circle,_rgba(34,197,94,0.55),_transparent_65%)] blur-3xl opacity-90" />
 
