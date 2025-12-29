@@ -78,6 +78,7 @@ export default function Dashboard() {
   const [projectStatusMap, setProjectStatusMap] = useState({});
   const [deletedIds, setDeletedIds] = useState([]);
 
+  // load status + deleted ids
   useEffect(() => {
     const saved = localStorage.getItem("lynix_project_status_map");
     if (saved) {
@@ -118,6 +119,7 @@ export default function Dashboard() {
     const YOUR_WA = "212651189916";
 
     const priceLine =
+      project.finalLabel ||
       project.priceLabel ||
       (project.priceMad
         ? `${Number(project.priceMad || 0).toLocaleString("fr-FR")} MAD`
@@ -166,6 +168,7 @@ Delivered: ${project.deliveredAt ? formatDate(project.deliveredAt) : "—"}
     }
   }
 
+  // auth session
   useEffect(() => {
     const ok = localStorage.getItem("lynix_dashboard_ok") === "1";
     if (ok) setAuthorized(true);
@@ -199,7 +202,12 @@ Delivered: ${project.deliveredAt ? formatDate(project.deliveredAt) : "—"}
       type: "sale",
       createdAt: p.createdAt || p.deliveredAt || null,
       promoCode: p.promoCode || "—",
-      priceLabel: p.priceLabel || (p.priceMad ? `${p.priceMad} MAD` : ""),
+      // ✅ FIX: format MAD nicely
+      priceLabel:
+        p.priceLabel ||
+        (p.priceMad
+          ? `${Number(p.priceMad).toLocaleString("fr-FR")} MAD`
+          : ""),
       status: projectStatusMap[p.id] || "delivered",
     }));
 
@@ -224,11 +232,15 @@ Delivered: ${project.deliveredAt ? formatDate(project.deliveredAt) : "—"}
 
   const totalProjectsAll = allProjects.length;
 
-  const deliveredCount = allProjects.filter((p) => p.status === "delivered").length;
+  const deliveredCount = allProjects.filter(
+    (p) => p.status === "delivered"
+  ).length;
   const pendingCount = allProjects.filter((p) => p.status === "pending").length;
-  const canceledCount = allProjects.filter((p) => p.status === "canceled").length;
+  const canceledCount = allProjects.filter(
+    (p) => p.status === "canceled"
+  ).length;
 
-  // ✅ NEW: Conversion Rate (delivered / total)
+  // Conversion Rate (delivered / total)
   const conversionRate = useMemo(() => {
     if (!totalProjectsAll) return 0;
     return Math.round((deliveredCount / totalProjectsAll) * 100);
@@ -341,7 +353,7 @@ Delivered: ${project.deliveredAt ? formatDate(project.deliveredAt) : "—"}
             </p>
           </button>
 
-          {/* ✅ بدل WhatsApp Leads: Conversion Rate */}
+          {/* Conversion Rate */}
           <div className="rounded-2xl bg-slate-900/70 border border-slate-700/80 p-4 flex flex-col gap-3">
             <div className="flex items-center justify-between">
               <span className="text-xs uppercase tracking-wide text-slate-300/90">
@@ -354,9 +366,7 @@ Delivered: ${project.deliveredAt ? formatDate(project.deliveredAt) : "—"}
             <p className="text-3xl font-semibold text-slate-50">
               {conversionRate}%
             </p>
-            <p className="text-xs text-slate-400">
-              Delivered / Total projects
-            </p>
+            <p className="text-xs text-slate-400">Delivered / Total projects</p>
           </div>
 
           {/* Pending clickable */}
@@ -392,10 +402,7 @@ Delivered: ${project.deliveredAt ? formatDate(project.deliveredAt) : "—"}
 
           <div className="flex items-end gap-4 h-48">
             {monthlyData.map((m) => (
-              <div
-                key={m.label}
-                className="flex flex-col items-center flex-1 gap-1"
-              >
+              <div key={m.label} className="flex flex-col items-center flex-1 gap-1">
                 <div
                   className="w-full bg-gradient-to-t from-emerald-500/40 to-emerald-300/80 rounded-xl transition-all"
                   style={{ height: `${10 + m.count * 18}px` }}

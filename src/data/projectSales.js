@@ -1,44 +1,33 @@
 // src/data/projectSales.js
+// planName: لازم يطابق plan.name فـ PricingSection
 
-// نوع المشروع: لازم يطابق الاسم اللي عندك فـ PricingSection (plan.name)
 export const projectSales = [
   {
     id: 1,
-    client: "Local Barber Shop",
-    planName: "Landing Page",
-    priceMad: 2500,
-    deliveredAt: "2025-11-05",
+    client: "Dental Clinic (Canada)",
+    planName: "Full Medical Solution",
+    priceMad: 17500,
+    deliveredAt: "2025-12-05",
   },
   {
     id: 2,
-    client: "Morocco Wear",
-    planName: "E-Commerce Store",
-    priceMad: 9500,
-    deliveredAt: "2025-11-20",
+    client: "Doctor Cabinet (USA)",
+    planName: "Medical Dashboard UI",
+    priceMad: 12000,
+    deliveredAt: "2025-12-12",
   },
   {
     id: 3,
-    client: "Dental Clinic XYZ",
-    planName: "Starter Website",
-    priceMad: 4800,
-    deliveredAt: "2025-12-01",
+    client: "Physiotherapy Clinic (UK)",
+    planName: "Medical Website",
+    priceMad: 8500,
+    deliveredAt: "2025-12-18",
   },
   {
     id: 4,
-    client: "Logistics Company",
-    planName: "Web App / Dashboard",
-    priceMad: 11500,
-    deliveredAt: "2025-10-18",
+    client: "Clinic Website Upgrade",
+    planName: "Website Redesign & UI Upgrade",
+    priceMad: 9000,
+    deliveredAt: "2025-11-22",
   },
-  {
-    id: 5,
-    client: "Chain of Pharmacies",
-    planName: "Maintenance & Support",
-    priceMad: 1250,
-    deliveredAt: "2025-12-02",
-  },
-  
 ];
-
-// 📝 أي مشروع جديد سالا و خلّصك الكليان:
-// زيد object جديد هنا بنفس الشكل.
