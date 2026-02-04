@@ -1,4 +1,3 @@
-// src/components/Hero.jsx
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -34,6 +33,24 @@ export default function Hero() {
 
   return (
     <section id="top" className="relative overflow-hidden bg-slate-950 text-white">
+      {/* ✅ MOVING TRUST LINE */}
+      <div className="relative w-full overflow-hidden border-b border-white/10 bg-black/30">
+        {/* gradient edges for nicer look */}
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-slate-950 to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-slate-950 to-transparent" />
+
+        <div className="flex whitespace-nowrap py-2 animate-marquee">
+          {Array.from({ length: 10 }).map((_, i) => (
+            <span
+              key={i}
+              className="mx-8 text-sm font-semibold text-green-400 tracking-wide"
+            >
+              +350 Clients Validated • Trusted by Clinics & Barber Shops •
+            </span>
+          ))}
+        </div>
+      </div>
+
       <div
         className="pointer-events-none absolute inset-0 opacity-80
         bg-[radial-gradient(circle_at_center,_rgba(34,197,94,0.25),_transparent_65%)]"
@@ -55,17 +72,17 @@ export default function Hero() {
           <h1
             className={`reveal d-150 ${show ? "show" : ""} text-4xl md:text-6xl font-bold leading-tight`}
           >
-            Medical <span className="text-green-400">Websites</span> &amp;{" "}
-            <span className="text-green-400">Dashboard UIs</span>
+            Websites &amp; <span className="text-green-400">Dashboard UIs</span>
             <br />
-            For Doctors &amp; Clinics
+            For <span className="text-green-400">Clinics</span> &amp;{" "}
+            <span className="text-green-400">Barber Shops</span>
           </h1>
 
           <p
             className={`reveal d-250 ${show ? "show" : ""} mt-2 text-gray-300 text-sm md:text-base`}
           >
-            We build clean, modern clinic websites and admin dashboard UIs
-            (appointments, patients, stats) with fast delivery and professional design.
+            We build clean, modern websites and admin dashboards with fast delivery and
+            professional design — from medical clinics to barber shops.
           </p>
 
           <div

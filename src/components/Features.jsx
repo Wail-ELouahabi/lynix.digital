@@ -1,5 +1,6 @@
 // src/components/Features.jsx
 const data = [
+  // ===== Medical =====
   {
     title: "Medical Website (Doctors & Clinics)",
     desc: "Modern clinic websites built with React + Tailwind: fast, responsive, and designed to build patient trust.",
@@ -24,6 +25,20 @@ const data = [
     title: "Deployment & Support",
     desc: "Launch help + small updates: deployment, bug fixes, performance improvements, and ongoing support if needed.",
   },
+
+  // ===== Barber Shop (NEW) =====
+  {
+    title: "Barber Shop Website",
+    desc: "Modern barber websites: services, gallery, reviews, WhatsApp & contact — built to bring more clients.",
+  },
+  {
+    title: "Online Booking System (Barbers)",
+    desc: "Booking UI for barbers: time slots, services selection, staff selection and appointment management (UI ready).",
+  },
+  {
+    title: "Branding & Social Kit (Barbers)",
+    desc: "Branding + Instagram templates + highlights covers + promo designs for barber shops.",
+  },
 ];
 
 export default function Features() {
@@ -37,7 +52,7 @@ export default function Features() {
   return (
     <section id="features" className="max-w-6xl mx-auto px-4 py-16">
       <h2 className="text-3xl font-bold text-center mb-12 text-white">
-        Medical Services We Provide
+        Services We Provide
       </h2>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">

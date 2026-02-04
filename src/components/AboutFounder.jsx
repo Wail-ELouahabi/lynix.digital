@@ -1,4 +1,3 @@
-// src/components/AboutFounder.jsx
 import { useEffect, useRef, useState } from "react";
 
 function useReveal(options = { threshold: 0.2 }) {
@@ -28,7 +27,7 @@ export default function AboutFounder() {
 
   const WHATSAPP = "212651189916";
   const waText = encodeURIComponent(
-    "Salam 👋 I’m interested in a medical website / clinic dashboard. Can we discuss details and pricing?"
+    "Salam 👋 I’m interested in a website / dashboard for my business (clinic or barber shop). Can we discuss details and pricing?"
   );
 
   return (
@@ -59,9 +58,10 @@ export default function AboutFounder() {
           <p
             className={`reveal d-200 ${show ? "show" : ""} text-gray-300 text-sm md:text-base leading-relaxed`}
           >
-            I help <span className="text-green-300">doctors and clinics</span>{" "}
-            launch modern, fast websites and clean dashboard UIs (appointments,
-            patients, stats) built with{" "}
+            I help <span className="text-green-300">businesses</span> launch modern,
+            fast websites and clean dashboard UIs — from{" "}
+            <span className="text-green-300">medical clinics</span> to{" "}
+            <span className="text-green-300">barber shops</span> — built with{" "}
             <span className="text-green-300">React + Tailwind</span>.
           </p>
 
@@ -79,7 +79,6 @@ export default function AboutFounder() {
           <div
             className={`reveal d-400 ${show ? "show" : ""} mt-5 flex flex-col sm:flex-row justify-center gap-3`}
           >
-            {/* WhatsApp Contact */}
             <a
               href={`https://wa.me/${WHATSAPP}?text=${waText}`}
               target="_blank"

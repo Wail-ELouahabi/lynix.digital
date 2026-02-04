@@ -119,3 +119,17 @@ html {
 .d-300 { transition-delay: 300ms; }
 .d-400 { transition-delay: 400ms; }
 .d-500 { transition-delay: 500ms; }
+
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 18s linear infinite;
+}

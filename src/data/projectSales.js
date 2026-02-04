@@ -1,6 +1,4 @@
 // src/data/projectSales.js
-// planName: لازم يطابق plan.name فـ PricingSection
-
 export const projectSales = [
   {
     id: 1,
@@ -29,5 +27,14 @@ export const projectSales = [
     planName: "Website Redesign & UI Upgrade",
     priceMad: 9000,
     deliveredAt: "2025-11-22",
+  },
+
+  // ✅ NEW (optional)
+  {
+    id: 5,
+    client: "Barber Shop (Morocco)",
+    planName: "Barber Shop Website",
+    priceMad: 6000,
+    deliveredAt: "2026-01-10",
   },
 ];

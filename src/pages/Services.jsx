@@ -31,12 +31,18 @@ export default function Services() {
   const work = useReveal({ threshold: 0.2 });
   const tech = useReveal({ threshold: 0.2 });
 
+  // ✅ NEW: Split services by category
+  const medicalServices = services.filter((s) => s.category === "medical");
+  const barberServices = services.filter((s) => s.category === "barber");
+
   return (
     <main className="max-w-6xl mx-auto px-4 py-16 space-y-16">
       {/* Hero */}
       <section ref={hero.ref} className="text-center max-w-3xl mx-auto">
         <span
-          className={`reveal ${hero.show ? "show" : ""} inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-gray-300 uppercase tracking-wide`}
+          className={`reveal ${
+            hero.show ? "show" : ""
+          } inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-gray-300 uppercase tracking-wide`}
         >
           Services
         </span>
@@ -79,23 +85,36 @@ export default function Services() {
         </div>
       </section>
 
-      {/* What We Build */}
+      {/* What We Build (Medical) */}
       <section ref={build.ref} className="space-y-6">
         <h2
-          className={`reveal ${build.show ? "show" : ""} text-xl md:text-2xl font-semibold text-white`}
+          className={`reveal ${
+            build.show ? "show" : ""
+          } text-xl md:text-2xl font-semibold text-white`}
         >
           What We Build
         </h2>
 
         <div className="grid md:grid-cols-2 gap-6">
-          {services.map((s, idx) => {
-            const isPopular = s.title.includes("Dashboard UI") || s.title.includes("Full Medical Solution");
+          {medicalServices.map((s, idx) => {
+            const isPopular =
+              s.title.includes("Dashboard UI") ||
+              s.title.includes("Full Medical Solution");
+
             return (
               <div
                 key={s.title}
                 className={`reveal ${
                   build.show ? "show" : ""
-                } ${idx === 1 ? "d-100" : idx === 2 ? "d-200" : idx === 3 ? "d-300" : ""} rounded-2xl border ${
+                } ${
+                  idx === 1
+                    ? "d-100"
+                    : idx === 2
+                    ? "d-200"
+                    : idx === 3
+                    ? "d-300"
+                    : ""
+                } rounded-2xl border ${
                   isPopular ? "border-green-500/60" : "border-white/10"
                 } ${
                   isPopular
@@ -127,17 +146,69 @@ export default function Services() {
         </div>
       </section>
 
+      {/* ✅ NEW: Barber Shop Services */}
+      {barberServices.length > 0 && (
+        <section className="space-y-6">
+          <h2 className="text-xl md:text-2xl font-semibold text-white">
+            Barber Shop Services
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {barberServices.map((s, idx) => {
+              const isPopular =
+                s.title.includes("Booking") || s.title.includes("Website");
+
+              return (
+                <div
+                  key={s.title}
+                  className={`rounded-2xl border ${
+                    isPopular ? "border-green-500/60" : "border-white/10"
+                  } ${
+                    isPopular
+                      ? "bg-gradient-to-b from-green-500/10 to-transparent shadow-xl shadow-green-900/50"
+                      : "bg-[#020617] shadow-lg shadow-black/40"
+                  } p-6`}
+                >
+                  {isPopular && (
+                    <div className="inline-flex mb-2 rounded-full bg-green-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-green-400">
+                      Popular
+                    </div>
+                  )}
+
+                  <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+                    <span className="text-xl">{s.icon}</span>
+                    <span>{s.title}</span>
+                  </h3>
+
+                  <p className="mt-2 text-sm text-gray-300">{s.description}</p>
+
+                  <ul className="mt-4 space-y-1 text-sm text-gray-300">
+                    {s.features.map((f) => (
+                      <li key={f}>• {f}</li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
       {/* How We Work */}
       <section ref={work.ref} className="space-y-6">
         <h2
-          className={`reveal ${work.show ? "show" : ""} text-xl md:text-2xl font-semibold text-white`}
+          className={`reveal ${
+            work.show ? "show" : ""
+          } text-xl md:text-2xl font-semibold text-white`}
         >
           How We Work
         </h2>
 
         <div className="grid md:grid-cols-3 gap-6">
           <div
-            className={`reveal ${work.show ? "show" : ""} rounded-2xl border border-white/10 bg-[#020617] p-6`}
+            className={`reveal ${
+              work.show ? "show" : ""
+            } rounded-2xl border border-white/10 bg-[#020617] p-6`}
           >
             <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
               Step 1
@@ -152,7 +223,9 @@ export default function Services() {
           </div>
 
           <div
-            className={`reveal d-100 ${work.show ? "show" : ""} rounded-2xl border border-white/10 bg-[#020617] p-6`}
+            className={`reveal d-100 ${
+              work.show ? "show" : ""
+            } rounded-2xl border border-white/10 bg-[#020617] p-6`}
           >
             <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
               Step 2
@@ -167,7 +240,9 @@ export default function Services() {
           </div>
 
           <div
-            className={`reveal d-200 ${work.show ? "show" : ""} rounded-2xl border border-white/10 bg-[#020617] p-6`}
+            className={`reveal d-200 ${
+              work.show ? "show" : ""
+            } rounded-2xl border border-white/10 bg-[#020617] p-6`}
           >
             <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
               Step 3
@@ -186,7 +261,9 @@ export default function Services() {
       {/* Technologies + CTA */}
       <section ref={tech.ref} className="space-y-6">
         <h2
-          className={`reveal ${tech.show ? "show" : ""} text-xl md:text-2xl font-semibold text-white`}
+          className={`reveal ${
+            tech.show ? "show" : ""
+          } text-xl md:text-2xl font-semibold text-white`}
         >
           Technologies We Use
         </h2>
@@ -197,28 +274,33 @@ export default function Services() {
           } rounded-2xl border border-white/10 bg-[#020617] p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4`}
         >
           <div className="flex flex-wrap gap-2">
-            {["React.js", "Tailwind CSS", "React Router", "Vercel Deploy", "SEO Structure", "UI Components"].map(
-              (t, idx) => (
-                <span
-                  key={t}
-                  className={`reveal ${tech.show ? "show" : ""} ${
-                    idx === 0
-                      ? ""
-                      : idx === 1
-                      ? "d-100"
-                      : idx === 2
-                      ? "d-200"
-                      : idx === 3
-                      ? "d-300"
-                      : idx === 4
-                      ? "d-400"
-                      : "d-500"
-                  } rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-gray-200`}
-                >
-                  {t}
-                </span>
-              )
-            )}
+            {[
+              "React.js",
+              "Tailwind CSS",
+              "React Router",
+              "Vercel Deploy",
+              "SEO Structure",
+              "UI Components",
+            ].map((t, idx) => (
+              <span
+                key={t}
+                className={`reveal ${tech.show ? "show" : ""} ${
+                  idx === 0
+                    ? ""
+                    : idx === 1
+                    ? "d-100"
+                    : idx === 2
+                    ? "d-200"
+                    : idx === 3
+                    ? "d-300"
+                    : idx === 4
+                    ? "d-400"
+                    : "d-500"
+                } rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-gray-200`}
+              >
+                {t}
+              </span>
+            ))}
           </div>
 
           <div className="text-sm text-gray-300 md:text-right">

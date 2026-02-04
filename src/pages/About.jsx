@@ -1,4 +1,3 @@
-// src/pages/About.jsx
 import { useEffect, useRef, useState } from "react";
 import AboutFounder from "../components/AboutFounder";
 
@@ -44,9 +43,11 @@ export default function About() {
           className={`reveal d-150 ${hero.show ? "show" : ""} text-gray-300 text-sm md:text-base max-w-3xl mx-auto leading-relaxed`}
         >
           lynix.digital is a focused studio building{" "}
-          <span className="text-green-300">medical websites</span> and{" "}
-          <span className="text-green-300">dashboard UIs</span> for doctors and clinics.
-          We help you launch fast with a clean design that builds trust and makes it easy for patients to contact you.
+          <span className="text-green-300">websites</span> and{" "}
+          <span className="text-green-300">dashboard UIs</span> for local businesses.
+          We help you launch fast with a clean design that builds trust and makes it easy for clients to contact you —
+          from <span className="text-green-300">medical clinics</span> to{" "}
+          <span className="text-green-300">barber shops</span>.
         </p>
       </section>
 
@@ -58,7 +59,7 @@ export default function About() {
           <h2 className="text-xl font-semibold mb-3 text-green-400">Who We Are</h2>
           <p className="text-sm text-gray-300 leading-relaxed">
             We are a small, focused team of frontend developers passionate about clean UI,
-            performance and user experience. Our goal is to ship high-quality medical interfaces
+            performance and user experience. Our goal is to ship high-quality interfaces
             quickly, with clear communication and predictable delivery.
           </p>
         </div>
@@ -68,10 +69,11 @@ export default function About() {
         >
           <h2 className="text-xl font-semibold mb-3 text-green-400">What We Do</h2>
           <ul className="text-sm text-gray-300 space-y-2 list-disc list-inside">
-            <li>Medical clinic websites (clean, modern, responsive)</li>
-            <li>Dashboard UI for appointments, patients and stats</li>
-            <li>Full medical solution (website + dashboard UI)</li>
-            <li>Redesign & UI upgrade for old clinic websites</li>
+            <li>Websites for clinics and local businesses</li>
+            <li>Dashboard UI for appointments, clients and stats</li>
+            <li>Full solution (website + dashboard UI)</li>
+            <li>Redesign & UI upgrade for old websites</li>
+            <li>Barber shop websites + booking UI</li>
           </ul>
         </div>
       </section>

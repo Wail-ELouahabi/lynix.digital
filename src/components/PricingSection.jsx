@@ -7,7 +7,7 @@ export default function PricingSection() {
 
   // ✅ PROMO CODES (hidden from UI, still works)
   const PROMOS = {
-    // Dashboard UI promos
+    // Medical Dashboard UI promos
     MED10: { type: "percent", value: 10, plans: ["Medical Dashboard UI"] },
     CLINIC15: { type: "percent", value: 15, plans: ["Medical Dashboard UI"] },
 
@@ -15,22 +15,37 @@ export default function PricingSection() {
     FULL100: { type: "fixed", value: 100, plans: ["Full Medical Solution"] },
     FULL10: { type: "percent", value: 10, plans: ["Full Medical Solution"] },
 
-    // Website promos
+    // Medical Website promos
     WEB50: { type: "fixed", value: 50, plans: ["Medical Website"] },
+
+    // ✅ Barber promos (NEW)
+    BARBER10: { type: "percent", value: 10, plans: ["Barber Shop Website"] },
+    BOOK50: { type: "fixed", value: 50, plans: ["Online Booking System (Barbers)"] },
   };
 
   // ✅ PRICES
   const priceTable = {
+    // Medical
     "Medical Website": { MAD: 8500, USD: 850, EUR: 800 },
     "Medical Dashboard UI": { MAD: 12000, USD: 1100, EUR: 1030 },
     "Full Medical Solution": { MAD: 17500, USD: 1700, EUR: 1600 },
     "Website Redesign & UI Upgrade": { MAD: 9000, USD: 800, EUR: 750 },
+
+    // Barber (NEW)
+    "Barber Shop Website": { MAD: 6000, USD: 600, EUR: 560 },
+    "Online Booking System (Barbers)": { MAD: 9000, USD: 850, EUR: 800 },
+    "Barber Branding & Social Kit": { MAD: 2500, USD: 250, EUR: 230 },
+
+    // Support
     "Maintenance & Support": { MAD: 1500, USD: 150, EUR: 140 },
   };
 
   const symbol = { MAD: "", USD: "$", EUR: "€" };
 
   const plans = [
+    // =========================
+    // MEDICAL
+    // =========================
     {
       name: "Medical Website",
       tagline: "Professional online presence for doctors and clinics.",
@@ -68,7 +83,7 @@ export default function PricingSection() {
     },
     {
       name: "Website Redesign & UI Upgrade",
-      tagline: "Modernize an existing clinic website (fast delivery).",
+      tagline: "Modernize an existing website (fast delivery).",
       features: [
         "Modern redesign + better layout",
         "Fix responsiveness issues",
@@ -77,6 +92,48 @@ export default function PricingSection() {
         "Delivery in ~2–3 days",
       ],
     },
+
+    // =========================
+    // BARBER (NEW)
+    // =========================
+    {
+      name: "Barber Shop Website",
+      tagline: "Modern barber website to attract more clients.",
+      features: [
+        "Landing page + services + gallery",
+        "Mobile-first responsive design",
+        "WhatsApp button + contact form",
+        "Google-ready SEO structure",
+        "Delivery in ~2–4 days",
+      ],
+    },
+    {
+      name: "Online Booking System (Barbers)",
+      tagline: "Booking UI for time slots, services & appointments (UI only).",
+      features: [
+        "Booking page UI + time slots",
+        "Services selection + add-ons",
+        "Staff selection UI (optional)",
+        "Appointments list + status UI",
+        "Ready for backend integration later",
+        "Delivery in ~5–7 days",
+      ],
+    },
+    {
+      name: "Barber Branding & Social Kit",
+      tagline: "Branding + Instagram templates + promo visuals.",
+      features: [
+        "Branding direction (colors + style)",
+        "Instagram post templates",
+        "Stories templates (promos/offers)",
+        "Highlight covers",
+        "Banner / profile visuals",
+      ],
+    },
+
+    // =========================
+    // SUPPORT
+    // =========================
     {
       name: "Maintenance & Support",
       tagline: "Monthly support to keep your system secure and updated.",
@@ -191,7 +248,6 @@ ${
 }
 `.trim();
 
-    // save lead
     saveWhatsAppLead({
       planName: selectedPlanName,
       priceLabel: basePriceLabel,
@@ -214,7 +270,7 @@ ${
           Project <span className="text-green-400">Pricing</span>
         </h2>
         <p className="text-gray-300 mt-3 text-sm md:text-base max-w-2xl mx-auto">
-          Clear packages designed for doctors, clinics and medical centers.
+          Clear packages designed for clinics, barber shops and local businesses.
         </p>
       </div>
 
@@ -246,9 +302,14 @@ ${
               ? `${price.toLocaleString("fr-FR")} MAD`
               : `${symbol[currency]}${price.toLocaleString("fr-FR")} ${currency}`;
 
-          const isPromoPlan = ["Medical Website", "Medical Dashboard UI", "Full Medical Solution"].includes(
-            plan.name
-          );
+          // ✅ Promo allowed on selected plans
+          const isPromoPlan = [
+            "Medical Website",
+            "Medical Dashboard UI",
+            "Full Medical Solution",
+            "Barber Shop Website",
+            "Online Booking System (Barbers)",
+          ].includes(plan.name);
 
           const isMaintenance = plan.name === "Maintenance & Support";
 
@@ -289,7 +350,9 @@ ${
 
                 <p className="text-2xl font-bold text-green-400">
                   From {priceLabel}{" "}
-                  {isMaintenance && <span className="text-xs text-gray-400">/ month</span>}
+                  {isMaintenance && (
+                    <span className="text-xs text-gray-400">/ month</span>
+                  )}
                 </p>
 
                 <ul className="space-y-1.5 text-xs text-gray-200 my-4">
